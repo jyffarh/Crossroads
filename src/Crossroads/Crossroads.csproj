@@ -4,7 +4,7 @@
 		<PublishReadyToRun>true</PublishReadyToRun>
 		<RootNamespace>Crossroads</RootNamespace>
 		<AssemblyName>Crossroads</AssemblyName>
-		<Configuration>Debug</Configuration>
+		<Configuration>Release</Configuration>
 		<VersionPrefix>1.0.0-preview</VersionPrefix>
 		<PackageId>MorganStanley.Crossroads</PackageId>
 		<Company>MorganStanley</Company>

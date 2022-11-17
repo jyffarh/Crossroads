@@ -54,10 +54,10 @@ namespace Crossroads.Test.Services
             string bundleName = Path.GetRandomFileName();
             string bundleDirectory = Path.Combine(Path.GetTempPath(), "crossroads", $"{Path.GetRandomFileName()}.ext");
             string appHostDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Crossroads.Launcher", "invalidPath");
-            string platformBundler = "win-x64";
+            string rId = "win-x64";
             
             IAppHostService appHost = new AppHostService();
-            await Assert.ThrowsAsync<ApplicationException>(async () => await appHost.ConvertLauncherToBundle(bundleName, bundleDirectory, appHostDirectory,platformBundler, null));
+            await Assert.ThrowsAsync<ApplicationException>(async () => await appHost.ConvertLauncherToBundle(bundleName, bundleDirectory, appHostDirectory, rId, null));
         }
 
         [Fact]
@@ -66,10 +66,10 @@ namespace Crossroads.Test.Services
             string bundleName = Path.GetRandomFileName();
             string bundleDirectory = Path.Combine(Path.GetTempPath(), "crossroads", $"{Path.GetRandomFileName()}.ext");
             string appHostDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Crossroads.Launcher", "invalidPath");
-            string platformBundler = "win-x64";
+            string rId = "win-x64";
           
             IAppHostService appHost = new AppHostService();
-            await Assert.ThrowsAsync<ApplicationException>(async () => await appHost.ConvertLauncherToBundle(bundleName, bundleDirectory, appHostDirectory, platformBundler, null));
+            await Assert.ThrowsAsync<ApplicationException>(async () => await appHost.ConvertLauncherToBundle(bundleName, bundleDirectory, appHostDirectory, rId, null));
         }
     }
 }

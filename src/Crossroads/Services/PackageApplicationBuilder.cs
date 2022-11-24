@@ -14,6 +14,7 @@
 
 using Microsoft.Extensions.Logging;
 using System;
+using System.CommandLine;
 using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
@@ -74,7 +75,8 @@ namespace Crossroads.Services
 
             string resourceassemblyPathResult = await resourcesAssemblyBuilder.Build(resourceassemblyPath, Option.Version, Option.Icon);
 
-            var fileName = (Option.TargetOs == "win-x64") ? $"{Option.Name}.exe" : Option.Name;
+            string fileName = (WindowsPlatform && option.TargetOs == "linux-x64") ? Option.Name :
+                (string.Compare(Path.GetExtension(Option.Name), ".exe", true) == 0) ? Option.Name : $"{Option.Name}.exe";
             await appHostService.ConvertLauncherToBundle(fileName, Option.Location, appHostDirectory, resourceassemblyPathResult, Option.TargetOs);
         }
 
@@ -192,6 +194,6 @@ namespace Crossroads.Services
                 }
             }
         }
-
+        private bool WindowsPlatform => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
     }
 }

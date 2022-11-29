@@ -19,6 +19,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using System.ComponentModel;
+
 
 namespace Crossroads.Services
 {
@@ -29,7 +31,7 @@ namespace Crossroads.Services
             var appHostDestinationFilePath = Path.Combine(appHostDirectory, hostName);
             await Task.Run(() => HostWriter.CreateAppHost(GetAppHostSourceFilePath(appHostDirectory, rId), appHostDestinationFilePath, appBinaryFilePath, assemblyToCopyResourcesFrom: resourceassemblyPathResult));
             
-            var platformBundler = ((rId == "win-x64") ? OSPlatform.Windows : OSPlatform.Linux);
+            var platformBundler = ((rId == TargetOsOption.Windows) ? OSPlatform.Windows : OSPlatform.Linux);
             var bundler = new Bundler(hostName, outputDir,
                 BundleOptions.BundleAllContent | BundleOptions.BundleSymbolFiles,
                 platformBundler,
@@ -70,7 +72,7 @@ namespace Crossroads.Services
 
         private string GetAppHostSourceFilePath(string appHostDirectory, string rId)
         {
-            string path = Path.Combine(appHostDirectory, (rId == "win-x64") ? "singlefilehost.exe" : "singlefilehost");
+            string path = Path.Combine(appHostDirectory, (rId == TargetOsOption.Windows) ? "singlefilehost.exe" : "singlefilehost");
             if (! File.Exists(path))
             {
                 throw new ApplicationException($"Host file {path} does not exist.");

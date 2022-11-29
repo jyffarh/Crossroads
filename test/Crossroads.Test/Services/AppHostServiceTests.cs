@@ -28,7 +28,7 @@ namespace Crossroads.Test.Services
             string bundleName = Path.GetRandomFileName();
             string bundleDirectory = Path.Combine(Path.GetTempPath(), "crossroads", $"{Path.GetRandomFileName()}.ext");
             string appHostDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Crossroads.Launcher");
-            string rId = "win-x64";
+            string rId = TargetOsOption.Windows;
 
             IAppHostService appHost = new AppHostService();
             await appHost.ConvertLauncherToBundle(bundleName, bundleDirectory, appHostDirectory, null, rId);
@@ -40,7 +40,8 @@ namespace Crossroads.Test.Services
             string bundleName = Path.GetRandomFileName();
             string bundleDirectory = Path.Combine(Path.GetTempPath(), "crossroads", Path.ChangeExtension(Path.GetRandomFileName(), "exe"));
             string appHostDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Crossroads.Launcher");
-            string rId = "win-x64";
+            string rId = TargetOsOption.Windows;
+
 
             IAppHostService appHost = new AppHostService();
             await appHost.ConvertLauncherToBundle(bundleName, bundleDirectory, appHostDirectory, rId, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "CrossRoads.dll"));
@@ -52,7 +53,8 @@ namespace Crossroads.Test.Services
             string bundleName = Path.GetRandomFileName();
             string bundleDirectory = Path.Combine(Path.GetTempPath(), "crossroads", $"{Path.GetRandomFileName()}.ext");
             string appHostDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Crossroads.Launcher", "invalidPath");
-            string rId = "win-x64";
+            string rId = TargetOsOption.Windows;
+
 
             IAppHostService appHost = new AppHostService();
             await Assert.ThrowsAsync<ApplicationException>(async () => await appHost.ConvertLauncherToBundle(bundleName, bundleDirectory, appHostDirectory, rId, null));
@@ -64,7 +66,7 @@ namespace Crossroads.Test.Services
             string bundleName = Path.GetRandomFileName();
             string bundleDirectory = Path.Combine(Path.GetTempPath(), "crossroads", $"{Path.GetRandomFileName()}.ext");
             string appHostDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Crossroads.Launcher", "invalidPath");
-            string rId = "linux-x64";
+            string rId = TargetOsOption.Windows; ;
 
             IAppHostService appHost = new AppHostService();
             await Assert.ThrowsAsync<ApplicationException>(async () => await appHost.ConvertLauncherToBundle(bundleName, bundleDirectory, appHostDirectory, rId, null));

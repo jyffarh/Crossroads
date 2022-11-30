@@ -14,10 +14,10 @@
 
 using Microsoft.Extensions.Logging;
 using System;
-
 using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 
@@ -54,9 +54,6 @@ namespace Crossroads.Services
 
         public async Task Build(PackageOption option)
         {
-            var logger1 = TargetOsOption.Linux;
-            var logger2 = TargetOsOption.Windows;
-            
             Option = option;
             if (Option == null)
             {
@@ -70,11 +67,11 @@ namespace Crossroads.Services
             {
                 option.TargetOs = hostOsDetectionService.GetTargetOsRid();
             }
-            //if(option.TargetOs != TargetOsOption.Windows || option.TargetOs != TargetOsOption.Linux)
-            //{
-            //    throw new ArgumentException( "invalid RID "+ nameof (option.TargetOs));
-                
-            //}
+            if (option.TargetOs != TargetOsOption.Windows || option.TargetOs != TargetOsOption.Linux)
+            {
+                throw new ArgumentException("invalid rid " + nameof(option.TargetOs));
+
+            }
 
             await Task.Run(() => CopyDirectory(launcherSourceDirectory, appHostDirectory, true));
 
@@ -84,7 +81,7 @@ namespace Crossroads.Services
 
             string resourceassemblyPathResult = await resourcesAssemblyBuilder.Build(resourceassemblyPath, Option.Version, Option.Icon);
 
-            string fileName = (WindowsPlatform && option.TargetOs == TargetOsOption.Windows) ? Option.Name :
+            string fileName = (WindowsPlatform && option.TargetOs == TargetOsOption.Windows) ? Path.GetFileNameWithoutExtension(Option.Name) :
                 (string.Compare(Path.GetExtension(Option.Name), ".exe", true) == 0) ? Option.Name : $"{Option.Name}.exe";
             await appHostService.ConvertLauncherToBundle(fileName, Option.Location, appHostDirectory, resourceassemblyPathResult, Option.TargetOs);
         }
